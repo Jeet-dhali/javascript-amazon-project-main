@@ -25,7 +25,7 @@ product.forEach((value) => {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${value.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -57,7 +57,13 @@ document.querySelector('.js-product-grid').innerHTML = getHTML;
 document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
     button.addEventListener('click', () => {
         productId = button.dataset.productId;
+        let quantityToAdd = 1;
         let matchingItems;
+
+        document.querySelectorAll(`.js-quantity-selector-${productId}`).forEach((quantitySelection) => {
+           quantityToAdd = Number(quantitySelection.value);
+       });
+       
         cart.forEach((items) => {
           if (productId === items.productId) {
             matchingItems = items;
@@ -69,7 +75,7 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
         } else {
           cart.push({
             productId: productId,
-            quantity: 1
+            quantity: quantityToAdd
         });
       }
       let totalQuantity = 0;
@@ -84,5 +90,6 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
             element.classList.add('fade-out');
          }, 1000);
       });
+      console.log(cart);
     });
   });
