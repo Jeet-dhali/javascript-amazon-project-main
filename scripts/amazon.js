@@ -14,14 +14,14 @@ product.forEach((value) => {
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="${value.rating.stars}">
+              src="images/ratings/rating-${value.rating.stars*10}.png">
             <div class="product-rating-count link-primary">
               ${value.rating.count}
             </div>
           </div>
 
           <div class="product-price">
-            ${value.priceCents/100}
+            ${(value.priceCents/100).toFixed(2)}
           </div>
 
           <div class="product-quantity-container">
@@ -41,12 +41,12 @@ product.forEach((value) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${value.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${value.name}">
+          <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-id="${value.id}">
             Add to Cart
           </button>
         </div>`;
@@ -54,14 +54,12 @@ product.forEach((value) => {
 });
 
 document.querySelector('.js-product-grid').innerHTML = getHTML;
-console.log(getHTML);
-
 document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
     button.addEventListener('click', () => {
-        productName = button.dataset.productName;
+        productId = button.dataset.productId;
         let matchingItems;
         cart.forEach((items) => {
-          if (productName === items.productName) {
+          if (productId === items.productId) {
             matchingItems = items;
           } 
         });
@@ -70,7 +68,7 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
           matchingItems.quantity +=1;
         } else {
           cart.push({
-            productName: productName,
+            productId: productId,
             quantity: 1
         });
       }
@@ -79,5 +77,12 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
         totalQuantity = totalQuantity + number.quantity
       });
       document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+
+      document.querySelectorAll(`.js-added-to-cart-${productId}`).forEach((element) => {
+          element.classList.add('added');
+          setTimeout(() => {
+            element.classList.add('fade-out');
+         }, 1000);
+      });
     });
   });
