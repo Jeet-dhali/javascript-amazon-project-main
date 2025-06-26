@@ -7,7 +7,7 @@ product = [
       stars: 4.5,
       count: 87
     },
-    price: 1090,
+    priceCents: 1090,
     keywords: [
       "socks",
       "sports",

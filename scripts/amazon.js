@@ -1,32 +1,3 @@
-let product = [
-    {
-        name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
-        image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
-        ratings: {
-            stars: 'images/ratings/rating-45.png',
-            count: '87'
-        },
-        price: 1090
-    },
-    {
-        name: 'Intermediate Size Basketball',
-        image: 'images/products/intermediate-composite-basketball.jpg',
-        ratings: {
-            stars: 'images/ratings/rating-40.png',
-            count: '127'
-        },
-        price: 2095
-    },
-    {
-        name: 'Adults Plain Cotton T-Shirt - 2 Pack',
-        image: 'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
-        ratings: {
-            stars: 'images/ratings/rating-45.png',
-            count: '56'
-        },
-        price: 799
-    }
-];
 
 let getHTML = ``;
 
@@ -43,14 +14,14 @@ product.forEach((value) => {
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="${value.ratings.stars}">
+              src="${value.rating.stars}">
             <div class="product-rating-count link-primary">
-              ${value.ratings.count}
+              ${value.rating.count}
             </div>
           </div>
 
           <div class="product-price">
-            ${value.price/100}
+            ${value.priceCents/100}
           </div>
 
           <div class="product-quantity-container">
@@ -83,6 +54,7 @@ product.forEach((value) => {
 });
 
 document.querySelector('.js-product-grid').innerHTML = getHTML;
+console.log(getHTML);
 
 document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
     button.addEventListener('click', () => {
