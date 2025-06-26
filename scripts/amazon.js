@@ -1,3 +1,6 @@
+import {cart} from '../data/cart.js';
+import {product} from '../data/product.js';
+import {addToCart} from '../data/cart.js';
 
 let getHTML = ``;
 
@@ -54,42 +57,40 @@ product.forEach((value) => {
 });
 
 document.querySelector('.js-product-grid').innerHTML = getHTML;
+
 document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
     button.addEventListener('click', () => {
-        productId = button.dataset.productId;
-        let quantityToAdd = 1;
-        let matchingItems;
+        let productId = button.dataset.productId;
+        let quantityToAdd = selectQuantity(productId);
+        addToCart(productId, quantityToAdd);
+        updateTotalQuantity();
+        addedPopup(productId);
+    });
+  });
 
-        document.querySelectorAll(`.js-quantity-selector-${productId}`).forEach((quantitySelection) => {
-           quantityToAdd = Number(quantitySelection.value);
-       });
-       
-        cart.forEach((items) => {
-          if (productId === items.productId) {
-            matchingItems = items;
-          } 
-        });
 
-        if(matchingItems) {
-          matchingItems.quantity +=1;
-        } else {
-          cart.push({
-            productId: productId,
-            quantity: quantityToAdd
-        });
-      }
-      let totalQuantity = 0;
+
+  function updateTotalQuantity() {
+    let totalQuantity = 0;
       cart.forEach((number) => {
         totalQuantity = totalQuantity + number.quantity
       });
       document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+  };
 
-      document.querySelectorAll(`.js-added-to-cart-${productId}`).forEach((element) => {
+  function addedPopup(productId) {
+    document.querySelectorAll(`.js-added-to-cart-${productId}`).forEach((element) => {
           element.classList.add('added');
           setTimeout(() => {
             element.classList.add('fade-out');
          }, 1000);
       });
-      console.log(cart);
-    });
-  });
+  };
+
+  function selectQuantity(productId) {
+    let quantityToAdd = 1;
+    document.querySelectorAll(`.js-quantity-selector-${productId}`).forEach((quantitySelection) => {
+          quantityToAdd = Number(quantitySelection.value);
+       });
+    return quantityToAdd;
+  };
