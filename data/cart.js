@@ -43,3 +43,12 @@ export function removeFromCart(productId) {
     cart = newCart;
     saveCartStorage();
 };
+
+export function updateQuantity(productId, newQuantity) {
+  cart.forEach((product) => {
+    if (product.id === productId) {
+      product.quantity = newQuantity;
+    };
+  });
+  saveCartStorage();
+};

@@ -56,6 +56,8 @@ product.forEach((value) => {
         getHTML = getHTML + html;
 });
 
+updateTotalQuantity();
+
 document.querySelector('.js-product-grid').innerHTML = getHTML;
 
 document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
