@@ -36,7 +36,7 @@ let checkoutHTML = '';
                   <span class="update-quantity-link link-primary js-update-quantity-link-${matchingProduct.id}">
                     Update 
                   </span>
-                  <input class="quantity-input">
+                  <input class="quantity-input js-quantity-input-${matchingProduct.id}">
                   <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.id}">save</span>
                   <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id="${matchingProduct.id}">
                     Delete
@@ -146,6 +146,26 @@ cart.forEach((item) => {
       });
     });
   });
+
+  document.querySelectorAll(`.js-quantity-input-${item.id}`).forEach((link) => {
+    link.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        document.querySelectorAll(`.js-cart-item-container-${item.id}`).forEach((container) => {
+        let updatedQuantity = Number(container.querySelector('.quantity-input').value);
+        if(!updatedQuantity || updatedQuantity <=0 || isNaN(updatedQuantity)) {
+          renderUpdatedQuantity();
+        } else{
+          updateQuantity(item.id, updatedQuantity);
+        }
+        container.classList.remove('is-editing-quantity');
+        renderUpdatedQuantity();
+        updateTotalQuantity();
+        saveCartStorage();
+        console.log(cart);
+      });
+      }; 
+    });
+  });
 });
 
 function renderUpdatedQuantity() {
@@ -155,3 +175,4 @@ function renderUpdatedQuantity() {
     });
   });
 };
+
