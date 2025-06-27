@@ -27,7 +27,7 @@ let checkoutHTML = '';
                   ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  ${matchingProduct.priceCents/100}
+                  ${(matchingProduct.priceCents/100).toFixed(2)}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -92,6 +92,8 @@ let checkoutHTML = '';
         checkoutHTML = checkoutHTML + html;
   });
 
+  updateTotalQuantity();
+
 document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
 
 document.querySelectorAll('.js-delete-quantity-link').forEach((delBtn) => {
@@ -101,6 +103,16 @@ document.querySelectorAll('.js-delete-quantity-link').forEach((delBtn) => {
         document.querySelectorAll(`.js-cart-item-container-${productId}`).forEach((btn) => {
             btn.remove();
         });
+        updateTotalQuantity();
     });
+    
 });
+
+function updateTotalQuantity() {
+    let totalQuantity = 0;
+      cart.forEach((number) => {
+        totalQuantity = totalQuantity + number.quantity
+      });
+      document.querySelector('.js-no-of-item').innerHTML = `${totalQuantity}item`;
+  };
 
