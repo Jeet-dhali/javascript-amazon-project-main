@@ -133,11 +133,16 @@ cart.forEach((item) => {
     link.addEventListener('click', () => {
       document.querySelectorAll(`.js-cart-item-container-${item.id}`).forEach((container) => {
         let updatedQuantity = Number(container.querySelector('.quantity-input').value);
+        if(!updatedQuantity || updatedQuantity <=0 || isNaN(updatedQuantity)) {
+          renderUpdatedQuantity();
+        } else{
+          updateQuantity(item.id, updatedQuantity);
+        }
         container.classList.remove('is-editing-quantity');
-        updateQuantity(item.id, updatedQuantity);
         renderUpdatedQuantity();
         updateTotalQuantity();
         saveCartStorage();
+        console.log(cart);
       });
     });
   });
