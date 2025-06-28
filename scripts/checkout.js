@@ -240,7 +240,8 @@ cart.forEach((cartItems) => {
   const deliveryOption = getDeliveryId(cartItems.deliveryOptionId);
   price += (product.priceCents*cartItems.quantity);
   shippingPrice += (deliveryOption.priceCents);
-  let totalBeforeTax = (shippingPrice + price);
+});
+let totalBeforeTax = (shippingPrice + price);
   let tax = totalBeforeTax*.1;
   let orderTotal = (price + shippingPrice + tax);
 
@@ -276,6 +277,6 @@ cart.forEach((cartItems) => {
           <button class="place-order-button button-primary">
             Place your order
           </button>`;
-});
+          
 document.querySelector('.js-payment-summary').innerHTML = html;
 };
