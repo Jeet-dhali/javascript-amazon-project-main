@@ -66,3 +66,9 @@ let matchingItems;
   matchingItems.deliveryOptionId = deliveryOptionId;
   saveCartStorage();
 };
+
+export function clearCart() {
+  localStorage.removeItem('cart');
+  cart.length = 0;
+  saveCartStorage();
+}

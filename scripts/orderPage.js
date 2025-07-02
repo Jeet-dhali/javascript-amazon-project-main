@@ -1,8 +1,10 @@
 import { orders } from "../data/orders.js";
 import { getProduct } from "../data/product.js";
+import { cart } from "../data/cart.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 renderOrderPage();
+updateCartQuantityHeader();
 
 export function renderOrderPage() {
   let orderHTML = ``;
@@ -30,7 +32,7 @@ export function renderOrderPage() {
           </button>
         </div>
         <div class="product-actions">
-          <a href="tracking.html">
+          <a href="tracking.html?orderId=${orderId}&productId=${productItem.productId}">
             <button class="track-package-button button-secondary">Track package</button>
           </a>
         </div>
@@ -66,4 +68,14 @@ export function renderOrderPage() {
   });
 
   document.querySelector('.orders-grid').innerHTML = orderHTML;
+}
+
+function updateCartQuantityHeader() {
+  let totalQuantity = 0;
+
+  cart.forEach((item) => {
+    totalQuantity += item.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity').innerHTML = `${totalQuantity}`;
 }

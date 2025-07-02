@@ -3,6 +3,7 @@ import {product, getProduct} from '../data/product.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions} from '../data/deliveryoptions.js';
 import { addOrder } from '../data/orders.js';
+import { clearCart } from '../data/cart.js';
 
 renderOrderSummary();
 renderPaymentSummary();
@@ -288,6 +289,7 @@ document.querySelector('.js-place-order-button').addEventListener('click', async
   });
   const order = await response.json();
   addOrder(order);
+  clearCart();
   window.location.href = "orders.html";
 })
 };
