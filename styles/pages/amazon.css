@@ -177,3 +177,12 @@
   padding: 8px;
   border-radius: 50px;
 }
+
+.no-results-message {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin-top: 60px;
+  width: 500px;
+  text-align: center;
+}
