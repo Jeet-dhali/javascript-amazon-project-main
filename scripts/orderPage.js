@@ -1,6 +1,6 @@
 import { orders } from "../data/orders.js";
 import { getProduct } from "../data/product.js";
-import { cart } from "../data/cart.js";
+import { cart, addToCart } from "../data/cart.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 renderOrderPage();
@@ -26,7 +26,7 @@ export function renderOrderPage() {
           <div class="product-name">${product.name}</div>
           <div class="product-delivery-date">Arriving on: ${deliveryDate}</div>
           <div class="product-quantity">Quantity: ${productItem.quantity}</div>
-          <button class="buy-again-button button-primary">
+          <button class="buy-again-button button-primary js-buy-again-button" data-product-id="${productItem.productId}">
             <img class="buy-again-icon" src="images/icons/buy-again.png">
             <span class="buy-again-message">Buy it again</span>
           </button>
@@ -79,3 +79,11 @@ function updateCartQuantityHeader() {
 
   document.querySelector('.js-cart-quantity').innerHTML = `${totalQuantity}`;
 }
+
+document.querySelectorAll('.js-buy-again-button').forEach((button) => {
+    button.addEventListener('click', () => {
+        const productId = button.dataset.productId;
+        addToCart(productId, 1);
+        updateCartQuantityHeader();
+    });
+});
