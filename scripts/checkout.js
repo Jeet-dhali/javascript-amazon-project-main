@@ -1,7 +1,8 @@
 import {cart, removeFromCart, updateQuantity, saveCartStorage, updateDeliveryOption} from '../data/cart.js';
-import {product} from '../data/product.js';
+import {product, getProduct} from '../data/product.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions} from '../data/deliveryoptions.js';
+import { addOrder } from '../data/orders.js';
 
 renderOrderSummary();
 renderPaymentSummary();
@@ -200,16 +201,7 @@ document.querySelectorAll('.js-delivery-option').forEach((option) => {
 });
 };
 
-function getProduct(cartItems) {
-    const productId = cartItems;
-    let matchingProduct;
-    product.forEach((product) => {
-        if (product.id === productId) {
-            matchingProduct = product;
-        };
-    });
-    return matchingProduct;
-};
+
 
 function getDeliveryId(cartItems) {
   const deliveryOptionId = cartItems;
@@ -274,9 +266,28 @@ let totalBeforeTax = (shippingPrice + price);
             <div class="payment-summary-money">$${(orderTotal/100).toFixed(2)}</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <button class="place-order-button button-primary js-place-order-button">
             Place your order
           </button>`;
           
 document.querySelector('.js-payment-summary').innerHTML = html;
+
+document.querySelector('.js-place-order-button').addEventListener('click', async () => {
+  const response = await fetch('https://supersimplebackend.dev/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      cart: cart.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+        deliveryOptionId: item.deliveryOptionId
+      }))
+    })
+  });
+  const order = await response.json();
+  addOrder(order);
+  window.location.href = "orders.html";
+})
 };

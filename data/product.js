@@ -1,4 +1,22 @@
-export let product = [
+
+export class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+  type;
+
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+}
+
+export const product = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -657,5 +675,17 @@ export let product = [
       "mens"
     ]
   }
-];
+].map((productDetails) => {
+  return new Product(productDetails);
+})
 
+export function getProduct(cartItems) {
+      const productId = cartItems;
+      let matchingProduct;
+      product.forEach((product) => {
+          if (product.id === productId) {
+              matchingProduct = product;
+          };
+      });
+      return matchingProduct;
+  }
