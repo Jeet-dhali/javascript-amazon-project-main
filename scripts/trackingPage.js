@@ -32,6 +32,14 @@ function renderTrackingPage() {
 
     const deliveryDate = dayjs(productItem.estimatedDeliveryTime).format('dddd, MMMM D');
 
+    const orderTime = dayjs(order.orderTime);
+    const estimatedDeliveryTime = dayjs(productItem.estimatedDeliveryTime);
+    const currentTime = dayjs();
+    const elapsed = currentTime.diff(orderTime); 
+    const total = estimatedDeliveryTime.diff(orderTime);
+    let progressPercentage = (elapsed/total) * 100;
+    progressPercentage = Math.max(0, Math.min(100, progressPercentage));
+    
 
 
     let html = `<a class="back-to-orders-link link-primary" href="orders.html">
@@ -65,10 +73,14 @@ function renderTrackingPage() {
         </div>
 
         <div class="progress-bar-container">
-          <div class="progress-bar"></div>
+          <div class="progress-bar js-progress-bar"></div>
         </div>`;
         trackingHTML += html;
         document.querySelector('.js-order-tracking').innerHTML = trackingHTML;
+
+        const progressBar = document.querySelector('.js-progress-bar');
+        progressBar.style.width = `${progressPercentage}%`;
+
 }
 
 function updateCartQuantityHeader() {
