@@ -70,7 +70,7 @@ export function renderOrderPage() {
   document.querySelector('.orders-grid').innerHTML = orderHTML;
 }
 
-function updateCartQuantityHeader() {
+export function updateCartQuantityHeader() {
   let totalQuantity = 0;
 
   cart.forEach((item) => {
