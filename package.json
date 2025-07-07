@@ -1,0 +1,24 @@
+{
+  "name": "javascript-amazon-project-main",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Jeet-dhali/javascript-amazon-project-main#readme",
+  "bugs": {
+    "url": "https://github.com/Jeet-dhali/javascript-amazon-project-main/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jeet-dhali/javascript-amazon-project-main.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
