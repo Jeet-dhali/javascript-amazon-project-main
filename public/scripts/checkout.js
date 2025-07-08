@@ -262,7 +262,7 @@ let totalBeforeTax = (shippingPrice + price);
 document.querySelector('.js-payment-summary').innerHTML = html;
 
 document.querySelector('.js-place-order-button').addEventListener('click', async () => {
-  const response = await fetch('https://amazon-clone-backend-71hb.onrender.com', {
+  const response = await fetch('https://amazon-clone-backend-71hb.onrender.com/api/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
