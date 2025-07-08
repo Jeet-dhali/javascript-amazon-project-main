@@ -4,9 +4,13 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const { product, getProduct } = require('./backendData/productInfo');
 const { getDeliveryId, deliveryOptions } = require('./backendData/deliveryInfo');
+const cors = require('cors');
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({
+  origin: 'https://jeet-dhali.github.io'
+}));
 
 // Add POST route for /api/orders
 app.post('/api/orders', (req, res) => {
