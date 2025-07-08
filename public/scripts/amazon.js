@@ -132,7 +132,7 @@ document.querySelector('.js-search-button').addEventListener('click', () => {
   const searchBar = document.querySelector('.js-search-bar');
   const searchInput = searchBar.value;
   if (searchInput) {
-    window.location.href = `amazon.html?search=${encodeURIComponent(searchInput)}`;
+    window.location.href = `index.html?search=${encodeURIComponent(searchInput)}`;
   }
   searchBar.value = '';
 });
