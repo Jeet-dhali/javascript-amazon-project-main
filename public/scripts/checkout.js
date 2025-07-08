@@ -4,6 +4,7 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions} from '../data/deliveryoptions.js';
 import { addOrder } from '../data/orders.js';
 import { clearCart } from '../data/cart.js';
+import { getDeliveryId } from '../data/deliveryoptions.js';
 
 renderOrderSummary();
 renderPaymentSummary();
@@ -202,19 +203,6 @@ document.querySelectorAll('.js-delivery-option').forEach((option) => {
 });
 };
 
-
-
-function getDeliveryId(cartItems) {
-  const deliveryOptionId = cartItems;
-    let deliveryOption;
-    deliveryOptions.forEach((options) => {
-      if (options.id === deliveryOptionId) {
-        deliveryOption = options;
-      };
-    });
-    return deliveryOption;
-};
-
 function getTotalQuantity() {
     let totalQuantity = 0;
       cart.forEach((number) => {
@@ -274,7 +262,7 @@ let totalBeforeTax = (shippingPrice + price);
 document.querySelector('.js-payment-summary').innerHTML = html;
 
 document.querySelector('.js-place-order-button').addEventListener('click', async () => {
-  const response = await fetch('https://supersimplebackend.dev/orders', {
+  const response = await fetch('/api/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -284,9 +272,11 @@ document.querySelector('.js-place-order-button').addEventListener('click', async
         productId: item.id,
         quantity: item.quantity,
         deliveryOptionId: item.deliveryOptionId
-      }))
+      })),
+      orderTotalCents: Math.round(orderTotal)
     })
   });
+
   const order = await response.json();
   addOrder(order);
   clearCart();
