@@ -16,7 +16,9 @@
 }
 
 .amazon-header-left-section {
-  width: 180px;
+  display: flex;
+  align-items: center;
+  width: 300px;
 }
 
 @media (max-width: 800px) {
@@ -146,4 +148,22 @@
   
   width: 26px;
   text-align: center;
+}
+
+.signup-link {
+  margin-left: 20px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 20px;
+  transition: background-color 0.1s ease;
+  height: fit-content;
+  align-self: center;
+}
+
+.signup-link:hover {
+  background-color: rgb(247, 202, 0);
+  color: black;
 }
