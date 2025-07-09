@@ -20,10 +20,13 @@ app.use(cors({
 const orderRoutes = require('./routes/orderRoutes');
 app.use('/api', orderRoutes);
 
-const userRoutes = require('./routes/userRoutes');
-app.use('/api', userRoutes);
+const registerRoutes = require('./routes/registerRoutes');
+app.use('/api', registerRoutes);
+
+const loginRoutes = require('./routes/loginRoutes');
+app.use('/api', loginRoutes);
 
 // Start server
 app.listen(5500, () => {
-  console.log('🚀 Server is running on http://localhost:5000');
+  console.log('Server is running on http://localhost:5500');
 });
