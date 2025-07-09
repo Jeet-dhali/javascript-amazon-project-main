@@ -144,3 +144,17 @@ if (searchTerm) {
 } else {
   renderHomePage();
 }
+
+const profileLink = document.querySelector('.js-profile-link');
+const signupLink = document.querySelector('.js-signup-link');
+const token = document.cookie.includes('jwt');
+
+if (token) {
+  // User is logged in
+  profileLink.style.visibility = 'visible';
+  signupLink.style.visibility = 'hidden';
+} else {
+  // User is not logged in
+  profileLink.style.visibility = 'hidden';
+  signupLink.style.visibility = 'visible';
+}

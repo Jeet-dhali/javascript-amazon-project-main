@@ -18,7 +18,7 @@
 .amazon-header-left-section {
   display: flex;
   align-items: center;
-  width: 300px;
+  width: 200px;
 }
 
 @media (max-width: 800px) {
@@ -152,20 +152,25 @@
 
 .auth-links {
   position: relative;
-  display: inline-block;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .signup-link,.profile-link {
-  margin-left: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
   padding: 8px 18px;
-  border-radius: 8px;
+  border-radius: 2px;
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: white;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
   transition: background-color 0.1s ease;
-  height: fit-content;
-  align-self: center;
+  white-space: nowrap;
+  transform: translate(15px, -18px);
 }
 
 .signup-link:hover {
@@ -174,12 +179,9 @@
 }
 
 .profile-link:hover {
-  border-color: white 2px solid;
+  border: 1px solid white;
 }
 
 .profile-link {
   visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
