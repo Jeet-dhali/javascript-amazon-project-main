@@ -150,7 +150,12 @@
   text-align: center;
 }
 
-.signup-link {
+.auth-links {
+  position: relative;
+  display: inline-block;
+}
+
+.signup-link,.profile-link {
   margin-left: 20px;
   padding: 8px 18px;
   border-radius: 8px;
@@ -166,4 +171,15 @@
 .signup-link:hover {
   background-color: rgb(247, 202, 0);
   color: black;
+}
+
+.profile-link:hover {
+  border-color: white 2px solid;
+}
+
+.profile-link {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

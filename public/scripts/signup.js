@@ -5,7 +5,7 @@ document.querySelector('.js-signup-button').addEventListener('click', async (e) 
     const name = await document.querySelector('.nameField').value;
     const email = await document.querySelector('.emailField').value;
     const password = await document.querySelector('.passField').value;    
-    const register = await fetch('http://localhost:5500/api/users/register', {
+    const register = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -17,8 +17,9 @@ document.querySelector('.js-signup-button').addEventListener('click', async (e) 
         })
     });
     const response = await register.json();
-    if (response) {
-        window.location.href = "index.html";
+    console.log(response);
+    if (response.message === 'User registered successfully') {
+        window.location.href = "signin.html";
     } else {
         console.log('Error')
     }

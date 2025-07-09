@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const {restrictToLoggedInUser} = require('./middleware/authoriseUser')
+
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/orderRequest')
@@ -13,8 +16,10 @@ mongoose.connect('mongodb://localhost:27017/orderRequest')
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: '*'
+  origin: 'http://127.0.0.1:5500',
+  credentials: true
 }));
+app.use(cookieParser());
 
 // Routes
 const orderRoutes = require('./routes/orderRoutes');
@@ -27,6 +32,6 @@ const loginRoutes = require('./routes/loginRoutes');
 app.use('/api', loginRoutes);
 
 // Start server
-app.listen(5500, () => {
-  console.log('Server is running on http://localhost:5500');
+app.listen(5000, () => {
+  console.log('Server is running on http://localhost:5000');
 });

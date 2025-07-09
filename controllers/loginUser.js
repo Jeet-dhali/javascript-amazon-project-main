@@ -1,19 +1,28 @@
-const User = require('../models/userSchema'); // your Mongoose schema
+const User = require('../models/userSchema');
+const { setUser, getUser } = require('../middleware/auth')
 
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email, password });
     if (!existingUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     // Simple password check
-    if (existingUser.password !== password) {
+    /*if (existingUser.password !== password) {
       return res.status(401).json({ error: 'Incorrect password' });
-    }
+    }*/
+   const token = setUser(existingUser);
+   res.cookie("jwt", token, {
+    httpOnly: false,      
+    sameSite: 'Lax',
+    secure: false ,
+    maxAge: 24 * 60 * 60 * 1000, 
+    path: '/'
+   });
 
     // Create and save new user
     
