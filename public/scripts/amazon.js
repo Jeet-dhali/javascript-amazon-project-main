@@ -2,23 +2,6 @@ import { cart } from '../data/cart.js';
 import { product } from '../data/product.js';
 import { addToCart } from '../data/cart.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  
-  const profileLink = document.querySelector('.profile-link');
-  const signupLink = document.querySelector('.signin-link');
-
-  const token = document.cookie.includes("jwt");
-  console.log('JWT Present?', token);
-  console.log('DOM loaded');
-  if (token) {
-    profileLink.style.display = 'inline';
-    signupLink.style.display = 'none';
-  } else {
-    profileLink.style.display = 'none';
-    signupLink.style.display = 'inline';
-  }
-});
-
 function renderHomePage() {
   renderProducts(product);
 }

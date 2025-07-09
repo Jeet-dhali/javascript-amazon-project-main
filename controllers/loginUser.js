@@ -1,5 +1,5 @@
 const User = require('../models/userSchema');
-const { setUser, getUser } = require('../middleware/auth')
+const { setUser, getUser } = require('../middleware/auth');
 
 const loginUser = async (req, res) => {
   try {
@@ -7,26 +7,30 @@ const loginUser = async (req, res) => {
 
     // Check if user already exists
     const existingUser = await User.findOne({ email, password });
+    
     if (!existingUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Simple password check
-    /*if (existingUser.password !== password) {
-      return res.status(401).json({ error: 'Incorrect password' });
-    }*/
-   const token = setUser(existingUser);
-   res.cookie("jwt", token, {
-    httpOnly: false,      
-    sameSite: 'Lax',
-    secure: false ,
-    maxAge: 24 * 60 * 60 * 1000, 
-    path: '/'
-   });
-
-    // Create and save new user
+    // Generate token
+    const token = setUser(existingUser);
     
-    res.json({ message: 'Login successful' });
+    // Set cookie
+    res.cookie('jwt', token,);
+
+    // Send response
+    const response = { 
+      success: true, 
+      message: 'Login successful',
+      user: {
+        id: existingUser._id,
+        email: existingUser.email
+      }
+    };
+    
+    
+    res.json(response);
+    
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }
