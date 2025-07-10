@@ -14,6 +14,9 @@ export function renderOrderPage() {
   let orderHTML = ``;
 
   orders.forEach((orderItem) => {
+    if (!orderItem.id) {
+      return;
+    }
     const orderId = orderItem.id;
     const formattedDate = dayjs(orderItem.orderTime).format('MMMM D, YYYY');
 

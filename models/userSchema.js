@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   }],
   orders: [
     {
-      productId: String,
+      id: String,
       orderTime: Date,
       totalCostCents: Number,
       products: [
