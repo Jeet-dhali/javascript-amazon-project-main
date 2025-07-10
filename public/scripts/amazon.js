@@ -167,4 +167,12 @@ if (token) {
   signupLink.classList.remove('hidden');
 }
 
+document.querySelector('.js-mobile-menu-toggle').addEventListener('click', () => {
+  document.querySelector('.js-mobile-sidebar').classList.add('open');
+});
+
+document.querySelector('.js-close-sidebar').addEventListener('click', () => {
+  document.querySelector('.js-mobile-sidebar').classList.remove('open');
+});
+
 });

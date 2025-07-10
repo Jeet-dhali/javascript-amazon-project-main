@@ -275,3 +275,73 @@
     display: none;
   }
 }
+
+/* ====== Mobile Menu ====== */
+.mobile-menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+  margin-left: 10px;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .mobile-menu-icon {
+    display: block;
+  }
+
+  .amazon-header-right-section,
+  .auth-links,
+  .orders-link {
+    display: none !important;
+  }
+}
+
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  right: -310px; /* ⬅️ Change this from left:-250px */
+  height: 100%;
+  width: 170px;
+  background-color: rgb(19, 25, 33);
+  color: white;
+  z-index: 1000;
+  transition: right 0.3s ease; /* ⬅️ Change left → right */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-sidebar.open {
+  right: 0;
+}
+
+.mobile-sidebar-header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.mobile-sidebar-header span {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.mobile-sidebar-links {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.mobile-sidebar-links li {
+  margin-bottom: 20px;
+}
+
+.mobile-sidebar-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.mobile-sidebar-links a:hover {
+  color: #febd69;
+}
