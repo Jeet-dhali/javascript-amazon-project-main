@@ -245,8 +245,21 @@
   }
 }
 
+@media (max-width: 800px) {
+  .auth-links {
+    display: none;
+    width: 80px;
+  }
+  
+  .signup-link,
+  .profile-link {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 575px) {
   .auth-links {
+    display: none;
     width: 60px;
   }
   
