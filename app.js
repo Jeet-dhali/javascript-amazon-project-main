@@ -1,5 +1,5 @@
-const express = require('express');
 require('dotenv').config();
+const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
@@ -12,6 +12,15 @@ const {restrictToLoggedInUser} = require('./middleware/authoriseUser')
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
+})
+.then(() => {
+  console.log('Connected to MongoDB Atlas');
+  app.listen(5000, () => {
+    console.log('Server is running on http://localhost:5000');
+  });
+})
+.catch((err) => {
+  console.error(' MongoDB connection error:', err);
 });
 
 /*mongoose.connect('mongodb://localhost:27017/orderRequest')
@@ -42,6 +51,3 @@ app.use('/api', userCartRoutes);
 
 
 // Start server
-app.listen(5000, () => {
-  console.log('Server is running on http://localhost:5000');
-});
