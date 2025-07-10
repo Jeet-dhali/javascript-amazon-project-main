@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost:27017/orderRequest')
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: 'http://localhost:5500',
+  origin: 'https://amazon-clone-frontend.onrender.com',
   credentials: true,
 }));
 app.use(cookieParser());

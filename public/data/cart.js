@@ -2,7 +2,7 @@ export let cart = [];
 
 export async function loadCartFromBackend() {
   try {
-    const response = await fetch('http://localhost:5000/api/user/cart', {
+    const response = await fetch('https://amazon-clone-backend-71hb.onrender.com/api/user/cart', {
       method: 'GET',
       credentials: 'include'
     });
@@ -32,7 +32,7 @@ export async function addToCart(productId, quantityToAdd) {
   }
 
   try {
-    await fetch('http://localhost:5000/api/user/cart', {
+    await fetch('https://amazon-clone-backend-71hb.onrender.com/api/user/cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export async function removeFromCart(productId) {
 
   // Call backend to remove from user's cart
   try {
-    await fetch(`http://localhost:5000/api/user/cart/${productId}`, {
+    await fetch(`https://amazon-clone-backend-71hb.onrender.com/api/user/cart/${productId}`, {
       method: 'DELETE',
       credentials: 'include'
     });
@@ -68,7 +68,7 @@ export async function updateQuantity(productId, newQuantity) {
     };
   });
   try {
-    await fetch('http://localhost:5000/api/user/cart', {
+    await fetch('https://amazon-clone-backend-71hb.onrender.com/api/user/cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ let matchingItems;
     matchingItems.deliveryOptionId = deliveryOptionId;
   }
   try {
-    await fetch('http://localhost:5000/api/user/cart', {
+    await fetch('https://amazon-clone-backend-71hb.onrender.com/api/user/cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ let matchingItems;
 export async function clearCart() {
   cart.length = 0;
 
-  await fetch('http://localhost:5000/api/user/cart', {
+  await fetch('https://amazon-clone-backend-71hb.onrender.com/api/user/cart', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -5,7 +5,7 @@ document.querySelector('.js-signup-button').addEventListener('click', async (e) 
     const name = await document.querySelector('.nameField').value;
     const email = await document.querySelector('.emailField').value;
     const password = await document.querySelector('.passField').value;    
-    const register = await fetch('http://localhost:5000/api/users/register', {
+    const register = await fetch('https://amazon-clone-backend-71hb.onrender.com/api/users/register', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
