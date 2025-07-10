@@ -151,10 +151,10 @@ const token = document.cookie.includes('jwt');
 
 if (token) {
   // User is logged in
-  profileLink.style.visibility = 'visible';
-  signupLink.style.visibility = 'hidden';
+  profileLink.classList.add('visible');
+  signupLink.classList.add('hidden');
 } else {
   // User is not logged in
-  profileLink.style.visibility = 'hidden';
-  signupLink.style.visibility = 'visible';
+  profileLink.classList.remove('visible');
+  signupLink.classList.remove('hidden');
 }

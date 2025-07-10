@@ -1,10 +1,11 @@
-import { orders } from "../data/orders.js";
+import { orders, reloadOrders } from "../data/orders.js";
 import { getProduct } from "../data/product.js";
 import { cart, addToCart } from "../data/cart.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 renderOrderPage();
 updateCartQuantityHeader();
+reloadOrders();
 
 export function renderOrderPage() {
   let orderHTML = ``;

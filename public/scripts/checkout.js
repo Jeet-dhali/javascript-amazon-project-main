@@ -262,11 +262,12 @@ let totalBeforeTax = (shippingPrice + price);
 document.querySelector('.js-payment-summary').innerHTML = html;
 
 document.querySelector('.js-place-order-button').addEventListener('click', async () => {
-  const response = await fetch('/api/orders', {
+  const response = await fetch('http://localhost:5000/api/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
+    credentials: 'include',
     body: JSON.stringify({
       cart: cart.map((item) => ({
         productId: item.id,
@@ -278,6 +279,12 @@ document.querySelector('.js-place-order-button').addEventListener('click', async
   });
 
   const order = await response.json();
+  console.log(cart);
+  console.log(order);
+  if (order.message === 'log in first') {
+    alert('Please log in to place your order.');
+    return;
+  }
   addOrder(order);
   clearCart();
   window.location.href = "orders.html";

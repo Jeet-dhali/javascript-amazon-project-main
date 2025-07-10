@@ -16,17 +16,14 @@ mongoose.connect('mongodb://localhost:27017/orderRequest')
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],
+  origin: 'http://localhost:5500',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Set-Cookie']
 }));
 app.use(cookieParser());
 
 // Routes
 const orderRoutes = require('./routes/orderRoutes');
-app.use('/api', orderRoutes);
+app.use('/api/orders', restrictToLoggedInUser, orderRoutes);
 
 const registerRoutes = require('./routes/registerRoutes');
 app.use('/api', registerRoutes);

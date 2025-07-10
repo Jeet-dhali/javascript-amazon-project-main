@@ -3,11 +3,9 @@
   color: white;
   padding-left: 15px;
   padding-right: 15px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: fixed;
   top: 0;
   left: 0;
@@ -53,7 +51,7 @@
   .amazon-logo {
     display: none;
   }
-
+  
   .amazon-mobile-logo {
     display: block;
     height: 35px;
@@ -67,6 +65,7 @@
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
+  min-width: 0; /* Allows flex item to shrink below content size */
 }
 
 .search-bar {
@@ -99,10 +98,33 @@
 }
 
 .amazon-header-right-section {
-  width: 180px;
+  width: 280px; /* Increased width to accommodate auth links */
   flex-shrink: 0;
   display: flex;
   justify-content: end;
+  align-items: center;
+  gap: 10px; /* Add space between items */
+}
+
+/* Responsive adjustments for right section */
+@media (max-width: 900px) {
+  .amazon-header-right-section {
+    width: 240px;
+  }
+}
+
+@media (max-width: 800px) {
+  .amazon-header-right-section {
+    width: 200px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 575px) {
+  .amazon-header-right-section {
+    width: 120px;
+    gap: 5px;
+  }
 }
 
 .orders-link {
@@ -118,6 +140,13 @@
   display: block;
   font-size: 15px;
   font-weight: 700;
+}
+
+/* Hide orders link on small screens */
+@media (max-width: 575px) {
+  .orders-link {
+    display: none;
+  }
 }
 
 .cart-link {
@@ -141,47 +170,95 @@
   color: rgb(240, 136, 4);
   font-size: 16px;
   font-weight: 700;
-
   position: absolute;
   top: 4px;
   left: 22px;
-  
   width: 26px;
   text-align: center;
 }
 
+/* Fixed auth links container */
 .auth-links {
   position: relative;
-  width: fit-content;
+  width: 90px; /* Fixed width to prevent overlap */
+  height: 40px; /* Set explicit height to match other elements */
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
-.signup-link,.profile-link {
+/* Stack the links on top of each other with z-index */
+.signup-link,
+.profile-link {
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 8px 18px;
-  border-radius: 2px;
-  text-decoration: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the links */
   color: white;
   font-weight: 700;
   font-size: 16px;
-  transition: background-color 0.1s ease;
   white-space: nowrap;
-  transform: translate(15px, -18px);
 }
 
-.signup-link:hover {
-  background-color: rgb(247, 202, 0);
-  color: black;
-}
-
-.profile-link:hover {
-  border: 1px solid white;
+.signup-link {
+  z-index: 2; /* Higher z-index when visible */
 }
 
 .profile-link {
+  z-index: 1; /* Lower z-index */
   visibility: hidden;
+}
+
+/* When profile link is shown, give it higher z-index */
+.profile-link.visible {
+  visibility: visible;
+  z-index: 2;
+}
+
+/* When signup link is hidden, give it lower z-index */
+.signup-link.hidden {
+  z-index: 1;
+  visibility: hidden;
+}
+
+/* Specific hover effects for auth links with header-link class */
+.signup-link.header-link:hover {
+  background-color: rgb(247, 202, 0);
+  color: black;
+  border: 1px solid rgb(247, 202, 0);
+}
+
+.profile-link.header-link:hover {
+  border: 1px solid white;
+}
+
+/* Mobile responsive adjustments for auth links */
+@media (max-width: 900px) {
+  .auth-links {
+    width: 80px;
+  }
+  
+  .signup-link,
+  .profile-link {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 575px) {
+  .auth-links {
+    width: 60px;
+  }
+  
+  .signup-link,
+  .profile-link {
+    font-size: 12px;
+  }
+}
+
+/* Very small screens - hide auth links completely if needed */
+@media (max-width: 400px) {
+  .auth-links {
+    display: none;
+  }
 }
