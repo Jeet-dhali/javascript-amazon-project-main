@@ -23,7 +23,7 @@ export function renderOrderPage() {
     let productsHTML = '';
 
     orderItem.products.forEach((productItem) => {
-      const product = getProduct(productItem.productId || productItem.id);  
+      const product = getProduct(productItem.id);  
 
       if (!product) {
         console.warn(`Product not found for ID: ${productItem.productId}`);
@@ -40,7 +40,7 @@ export function renderOrderPage() {
           <div class="product-name">${product.name}</div>
           <div class="product-delivery-date">Arriving on: ${deliveryDate}</div>
           <div class="product-quantity">Quantity: ${productItem.quantity}</div>
-          <button class="buy-again-button button-primary js-buy-again-button" data-product-id="${productItem.productId}">
+          <button class="buy-again-button button-primary js-buy-again-button" data-product-id="${productItem.productId || productItem.id}">
             <img class="buy-again-icon" src="images/icons/buy-again.png">
             <span class="buy-again-message">Buy it again</span>
           </button>

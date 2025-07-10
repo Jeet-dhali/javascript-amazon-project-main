@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
         {
           id: String,
           quantity: Number,
-          deliveryOptionId: String
+          estimatedDeliveryTime: String
         }
       ]
     }
