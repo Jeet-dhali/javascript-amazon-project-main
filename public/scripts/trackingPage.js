@@ -1,13 +1,14 @@
-import { orders } from "../data/orders.js";
+import { orders, loadOrdersFromBackend } from "../data/orders.js";
 import { getProduct } from "../data/product.js";
-import { cart } from "../data/cart.js";
+import { cart, loadCartFromBackend } from "../data/cart.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
-
-
-renderTrackingPage();
-updateCartQuantityHeader();
-
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadCartFromBackend(); 
+  await loadOrdersFromBackend();
+  renderTrackingPage();
+  updateCartQuantityHeader();
+});
 
 function renderTrackingPage() {
     let trackingHTML = ``;
@@ -23,7 +24,7 @@ function renderTrackingPage() {
         return;
     }
 
-    const productItem = order.products.find(p => p.productId === productId);
+    const productItem = order.products.find(p => p.productId === productId || p.id === productId);
 
     if (!productItem) {
         console.error('Product not found in order');

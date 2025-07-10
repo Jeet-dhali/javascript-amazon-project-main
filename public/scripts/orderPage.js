@@ -43,7 +43,7 @@ export function renderOrderPage() {
           </button>
         </div>
         <div class="product-actions">
-          <a href="tracking.html?orderId=${orderId}&productId=${productItem.productId}">
+          <a href="tracking.html?orderId=${orderId}&productId=${productItem.id}">
             <button class="track-package-button button-secondary">Track package</button>
           </a>
         </div>
