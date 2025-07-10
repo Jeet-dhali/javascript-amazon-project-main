@@ -8,7 +8,7 @@ export async function loadCartFromBackend() {
     });
 
     const data = await response.json();
-    cart = data.cart || [];
+    cart = (data.cart || []).filter(item => item.id && item.id !== 'undefined');
   } catch (err) {
     console.error('Failed to load cart from backend:', err);
   }
@@ -16,6 +16,7 @@ export async function loadCartFromBackend() {
 
 
 export async function addToCart(productId, quantityToAdd) {
+  if (!productId || productId === 'undefined') return;
   let matchingItems = cart.find((item) => {
     return item.id === productId
   });

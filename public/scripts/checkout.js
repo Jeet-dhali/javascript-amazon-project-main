@@ -7,9 +7,9 @@ import { clearCart } from '../data/cart.js';
 import { getDeliveryId } from '../data/deliveryoptions.js';
 
 window.addEventListener('DOMContentLoaded', async () => {
-  await loadCartFromBackend(); // 🚨 Must call this
+  await loadCartFromBackend(); 
   renderOrderSummary();
-  renderPaymentSummary();      // Only after loading cart
+  renderPaymentSummary();     
 });
 
 
@@ -28,11 +28,17 @@ let checkoutHTML = '';
 
     const deliveryOptionId = cartItems.deliveryOptionId;
     let deliveryOption;
+    if (!deliveryOption) {
+       deliveryOption = {
+          deliveryDays: 0,
+          priceCents: 0
+        };
+      }
     deliveryOptions.forEach((options) => {
       if (options.id === deliveryOptionId) {
         deliveryOption = options;
       };
-    });
+  });
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
@@ -263,7 +269,7 @@ let totalBeforeTax = (shippingPrice + price);
 document.querySelector('.js-payment-summary').innerHTML = html;
 
 document.querySelector('.js-place-order-button').addEventListener('click', async () => {
-  const response = await fetch('http://localhost:5000/api/orders', {
+  const response = await fetch('http://localhost:5000/api/user/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

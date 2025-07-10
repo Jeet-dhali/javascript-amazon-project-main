@@ -1,43 +1,73 @@
 const { v4: uuidv4 } = require('uuid');
 const Order = require('../models/orderSchema');
+const User = require('../models/userSchema');
 const { getProduct } = require('../middleware/getProductInfo');
 const { getDeliveryId } = require('../middleware/getDeliveryInfo');
+const { getUser } = require('../middleware/auth');
 
-const createOrder = async (req, res) => {
+//user order
+const placeOrderForUser = async (req, res) => {
   try {
-    const orderTime = new Date();
-    const id = uuidv4();
+    const jwt = req.cookies.jwt;
+    const userData = getUser(jwt);
+    if (!userData) return res.status(401).json({ message: 'Unauthorized' });
+
     const { cart, orderTotalCents } = req.body;
+    const id = uuidv4();
+    const orderTime = new Date();
 
     const processedProducts = cart.map((items) => {
       const product = getProduct(items.productId);
       const deliveryOption = getDeliveryId(items.deliveryOptionId);
-      const quantity = items.quantity;
 
       const deliveryDate = new Date();
       deliveryDate.setDate(deliveryDate.getDate() + deliveryOption.deliveryDays);
 
       return {
-        productId: items.productId,
-        quantity,
+        id: items.productId, // match your userSchema field name
+        quantity: items.quantity,
+        deliveryOptionId: items.deliveryOptionId,
         estimatedDeliveryTime: deliveryDate.toISOString()
       };
     });
 
-    const newOrder = new Order({
+    const newOrder = {
       id,
-      orderTime: orderTime.toISOString(),
+      orderTime,
       totalCostCents: orderTotalCents,
       products: processedProducts
-    });
+    };
 
-    await newOrder.save();
-    res.status(201).json(newOrder);
+    await User.findByIdAndUpdate(
+      userData._id,
+      {
+        $push: { orders: newOrder },
+        $set: { cart: [] }
+      },
+      { new: true }
+    );
 
-  } catch (error) {
-    console.error('Error saving order:', error);
-    res.status(500).json({ message: 'Failed to save order' });
+    res.status(201).json({ message: 'Order placed', order: newOrder });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to place order', error: err.message });
   }
 };
 
-module.exports = { createOrder };
+//
+const getUserOrders = async (req, res) => {
+  try {
+    const jwt = req.cookies.jwt;
+    const userData = getUser(jwt);
+    if (!userData) return res.status(401).json({ message: 'Unauthorized' });
+
+    const user = await User.findById(userData._id);
+    res.json({ orders: user.orders || [] });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch orders', error: err.message });
+  }
+};
+
+module.exports = {
+  placeOrderForUser,
+  getUserOrders
+};

@@ -1,11 +1,14 @@
-import { orders, reloadOrders } from "../data/orders.js";
+import { orders, loadOrdersFromBackend } from "../data/orders.js";
 import { getProduct } from "../data/product.js";
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart, loadCartFromBackend } from "../data/cart.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
-renderOrderPage();
-updateCartQuantityHeader();
-reloadOrders();
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadCartFromBackend();
+  await loadOrdersFromBackend(); 
+  renderOrderPage();
+  updateCartQuantityHeader();    
+});
 
 export function renderOrderPage() {
   let orderHTML = ``;
@@ -17,7 +20,14 @@ export function renderOrderPage() {
     let productsHTML = '';
 
     orderItem.products.forEach((productItem) => {
-      const product = getProduct(productItem.productId);  
+      const product = getProduct(productItem.productId || productItem.id);  
+
+      if (!product) {
+        console.warn(`Product not found for ID: ${productItem.productId}`);
+        return;
+      }
+
+
       const deliveryDate = dayjs(productItem.estimatedDeliveryTime).format('MMMM D, YYYY');
       productsHTML += `
         <div class="product-image-container">
@@ -69,6 +79,14 @@ export function renderOrderPage() {
   });
 
   document.querySelector('.orders-grid').innerHTML = orderHTML;
+
+  document.querySelectorAll('.js-buy-again-button').forEach((button) => {
+    button.addEventListener('click', () => {
+        const productId = button.dataset.productId;
+        addToCart(productId, 1);
+        updateCartQuantityHeader();
+    });
+});
 }
 
 export function updateCartQuantityHeader() {
@@ -81,10 +99,3 @@ export function updateCartQuantityHeader() {
   document.querySelector('.js-cart-quantity').innerHTML = `${totalQuantity}`;
 }
 
-document.querySelectorAll('.js-buy-again-button').forEach((button) => {
-    button.addEventListener('click', () => {
-        const productId = button.dataset.productId;
-        addToCart(productId, 1);
-        updateCartQuantityHeader();
-    });
-});

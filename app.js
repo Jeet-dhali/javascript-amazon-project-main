@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 // Routes
 const orderRoutes = require('./routes/orderRoutes');
-app.use('/api/orders', restrictToLoggedInUser, orderRoutes);
+app.use('/api', orderRoutes);
 
 const registerRoutes = require('./routes/registerRoutes');
 app.use('/api', registerRoutes);

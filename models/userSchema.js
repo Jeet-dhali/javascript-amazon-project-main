@@ -26,7 +26,22 @@ const userSchema = new mongoose.Schema({
     deliveryOptionId: {
       type: String
     }
-  }]
+  }],
+  orders: [
+    {
+      productId: String,
+      orderTime: Date,
+      totalCostCents: Number,
+      products: [
+        {
+          id: String,
+          quantity: Number,
+          deliveryOptionId: String
+        }
+      ]
+    }
+  ]
+  
 });
 
 module.exports = mongoose.model('User', userSchema);
