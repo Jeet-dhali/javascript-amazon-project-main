@@ -1,74 +1,118 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart = [];
 
-if (!cart) {
-    cart = [{
-        id: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-        quantity: 1,
-        deliveryOptionId: '1'
-    }, {
-        id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-        quantity: 2,
-        deliveryOptionId: '2'
-    }];
+export async function loadCartFromBackend() {
+  try {
+    const response = await fetch('http://localhost:5000/api/user/cart', {
+      method: 'GET',
+      credentials: 'include'
+    });
+
+    const data = await response.json();
+    cart = data.cart || [];
+  } catch (err) {
+    console.error('Failed to load cart from backend:', err);
+  }
 }
 
-export function saveCartStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart))
-};
 
-export function addToCart(productId, quantityToAdd) {
-    let matchingItems;
-    cart.forEach((items) => {
-          if (productId === items.id) {
-            matchingItems = items;
-          } 
-        });
+export async function addToCart(productId, quantityToAdd) {
+  let matchingItems = cart.find((item) => {
+    return item.id === productId
+  });
 
-        if(matchingItems) {
-          matchingItems.quantity += quantityToAdd;
-        } else {
-          cart.push({
-            id: productId,
-            quantity: quantityToAdd,
-            deliveryOptionId: '1'
-        });
-      }
-      saveCartStorage();
-  };
-
-export function removeFromCart(productId) {
-    let newCart = [];
-    cart.forEach((product) => {
-        if (product.id !== productId) {
-            newCart.push(product)
-        }
+  if (matchingItems) {
+    matchingItems.quantity += quantityToAdd;
+  } else {
+    cart.push({
+      id: productId,
+      quantity: quantityToAdd,
+      deliveryOptionId: '1'
     });
-    cart = newCart;
-    saveCartStorage();
-};
+  }
 
-export function updateQuantity(productId, newQuantity) {
+  try {
+    await fetch('http://localhost:5000/api/user/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ cart })
+    });
+  } catch (err) {
+    console.error('Failed to update backend cart:', err);
+  }
+}
+
+export async function removeFromCart(productId) {
+  // Remove from local cart first (optional if only using backend cart)
+  cart = cart.filter(product => product.id !== productId);
+
+  // Call backend to remove from user's cart
+  try {
+    await fetch(`http://localhost:5000/api/user/cart/${productId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+  } catch (error) {
+    console.error('Error removing from backend cart:', error);
+  }
+}
+
+
+export async function updateQuantity(productId, newQuantity) {
   cart.forEach((product) => {
     if (product.id === productId) {
       product.quantity = newQuantity;
     };
   });
-  saveCartStorage();
+  try {
+    await fetch('http://localhost:5000/api/user/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ cart })
+    });
+  } catch (err) {
+    console.error('Failed to update cart quantity in backend:', err);
+  }
 };
 
-export function updateDeliveryOption(productId, deliveryOptionId) {
+export async function updateDeliveryOption(productId, deliveryOptionId) {
 let matchingItems;
   cart.forEach((items) => {
         if (productId === items.id) {
           matchingItems = items;
         } 
       });
-  matchingItems.deliveryOptionId = deliveryOptionId;
-  saveCartStorage();
+  if (matchingItems) {
+    matchingItems.deliveryOptionId = deliveryOptionId;
+  }
+  try {
+    await fetch('http://localhost:5000/api/user/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ cart })
+    });
+  } catch (err) {
+    console.error('Failed to update delivery option in backend:', err);
+  }
 };
 
-export function clearCart() {
-  localStorage.removeItem('cart');
+export async function clearCart() {
   cart.length = 0;
-  saveCartStorage();
+
+  await fetch('http://localhost:5000/api/user/cart', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify({ cart })
+  });
 }

@@ -31,6 +31,10 @@ app.use('/api', registerRoutes);
 const loginRoutes = require('./routes/loginRoutes');
 app.use('/api', loginRoutes);
 
+const userCartRoutes = require('./routes/userCartRoutes');
+app.use('/api', userCartRoutes);
+
+
 // Start server
 app.listen(5000, () => {
   console.log('Server is running on http://localhost:5000');

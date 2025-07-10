@@ -15,7 +15,18 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  cart: [{
+    id: {
+      type: String
+    },
+    quantity: {
+      type: Number
+    },
+    deliveryOptionId: {
+      type: String
+    }
+  }]
 });
 
 module.exports = mongoose.model('User', userSchema);

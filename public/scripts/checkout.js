@@ -1,4 +1,4 @@
-import {cart, removeFromCart, updateQuantity, saveCartStorage, updateDeliveryOption} from '../data/cart.js';
+import {cart, removeFromCart, updateQuantity, updateDeliveryOption, loadCartFromBackend} from '../data/cart.js';
 import {product, getProduct} from '../data/product.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions} from '../data/deliveryoptions.js';
@@ -6,8 +6,12 @@ import { addOrder } from '../data/orders.js';
 import { clearCart } from '../data/cart.js';
 import { getDeliveryId } from '../data/deliveryoptions.js';
 
-renderOrderSummary();
-renderPaymentSummary();
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadCartFromBackend(); // 🚨 Must call this
+  renderOrderSummary();
+  renderPaymentSummary();      // Only after loading cart
+});
+
 
 function renderOrderSummary() {
 
@@ -126,7 +130,6 @@ cart.forEach((item) => {
         container.classList.remove('is-editing-quantity');
         renderUpdatedQuantity();
         updateTotalQuantity();
-        saveCartStorage();
         renderPaymentSummary();
       });
     });
@@ -145,7 +148,6 @@ cart.forEach((item) => {
         container.classList.remove('is-editing-quantity');
         renderUpdatedQuantity();
         updateTotalQuantity();
-        saveCartStorage();
         console.log(cart);
       });
       }; 
@@ -197,8 +199,7 @@ document.querySelectorAll('.js-delivery-option').forEach((option) => {
     const deliveryOptionId = option.dataset.deliveryoptionId
     updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary();
-    renderPaymentSummary()
-    saveCartStorage();
+    renderPaymentSummary();
   });
 });
 };

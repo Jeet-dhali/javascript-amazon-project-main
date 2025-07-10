@@ -1,10 +1,18 @@
-import { cart } from '../data/cart.js';
+import { cart, loadCartFromBackend } from '../data/cart.js';
 import { product } from '../data/product.js';
 import { addToCart } from '../data/cart.js';
 
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadCartFromBackend(); 
+
+
 function renderHomePage() {
-  renderProducts(product);
-}
+    renderProducts(product);
+    updateTotalQuantity(); 
+  } 
+
+
 
 function renderFilteredProducts(searchTerm) {
   const filteredProducts = product.filter((item) =>
@@ -158,3 +166,5 @@ if (token) {
   profileLink.classList.remove('visible');
   signupLink.classList.remove('hidden');
 }
+
+});
